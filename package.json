@@ -1,0 +1,23 @@
+{
+  "name": "getContracts",
+  "version": "1.0.0",
+  "description": "fetch all Rarible NFT Contracts",
+  "main": "fetchContracts.js",
+  "author": "georg",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "axios-rate-limit": "^1.3.0",
+    "cli-progress": "^3.9.0",
+    "draftlog": "^1.0.13",
+    "mustache": "^4.2.0",
+    "web3": "^1.5.0"
+  },
+  "scripts": {
+    "fetch:mainnet": "node fetchContracts.js networks/config.mainnet.json",
+    "fetch:kovan": "node fetchContracts.js networks/config.kovan.json",
+    "fetch:polygon": "node fetchContracts.js networks/config.polygon.json",
+    "fetch:rinkeby": "node fetchContracts.js networks/config.rinkeby.json"
+  }
+}
