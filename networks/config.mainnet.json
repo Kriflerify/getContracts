@@ -1,0 +1,7 @@
+{
+    "network": "mainnet",
+    "outputFileName": "output/contracts.mainnet.json",
+    "ethNodeURL": "wss://mainnet.infura.io/ws/v3/40baae2ef49e422088e02166de2deb85",
+    "requestSize": 500,
+    "raribleEndpoint": "https://api.rarible.com/protocol/v0.1/ethereum/nft/items/all"
+}

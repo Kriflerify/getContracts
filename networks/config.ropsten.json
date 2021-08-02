@@ -1,0 +1,7 @@
+{
+    "network": "ropsten",
+    "outputFileName": "output/contracts.ropsten.json",
+    "ethNodeURL": "",
+    "requestSize": 500,
+    "raribleEndpoint": "https://api-dev.rarible.com/protocol/v0.1/ethereum/nft/items/all"
+}
