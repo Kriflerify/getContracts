@@ -9,7 +9,7 @@ let configFile = process.argv[2];
 let config = JSON.parse(readFileSync(configFile));
 
 const ethNode = config.ethNodeURL;
-const web3 = new Web3(ethNode);
+const web3 = new Web3(new Web3.providers.HttpProvider(ethNode));
 
 const contractsFileName = config.outputFileName
 // try {
