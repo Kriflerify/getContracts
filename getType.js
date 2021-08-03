@@ -41,7 +41,7 @@ async function main() {
         } catch (err) {
             errorContracts.push(c);
             contractType.set(c, 5);
-            console.error(err);
+            console.log(err);
         }
         i += 1;
         progressBar.update(i);

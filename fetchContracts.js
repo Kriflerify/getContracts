@@ -12,6 +12,7 @@ const requestSize = config.requestSize;
 // Map of (contract address => type) where type is either "ERC721" or "ERC1155"
 var allContracts = new Map(); 
 var failedContracts = [];
+var proccessed = [];
 
 var consoleUpdate = {};
 
@@ -20,9 +21,10 @@ var stats = {
     total_contracts: 0,
     ERC721: 0,
     ERC1155: 0,
-    TypeRequestQueue: 0,
-    FailedItemRequests: 0,
+    typeRequestQueue: 0,
+    FailedItemPages: 0,
     FailedTypeClassification: 0,
+    FailedTypeRequest: 0,
     Failed: 0
 }
 
@@ -32,7 +34,6 @@ async function main() {
 
     try {
         let res = await getPage();
-        console.log(res);
         let [l, cont, data] = parseResponse(res);
         stats.items += l;
 
@@ -54,7 +55,7 @@ async function main() {
                 }
             } catch (err) {
                 stats.FailedItemPages += 1;
-                console.error(err);
+                console.log(err);
                 if (stats.FailedItemPages > 100) {
                     done = true;
                     console.log(`Fetching Items failed more than 100 times`);
@@ -64,7 +65,7 @@ async function main() {
         }
         writeFiles();
     } catch (err) {
-        console.error(err);
+        console.log(err);
     }
 }
 
@@ -92,7 +93,8 @@ function getTypeAndRecord(data) {
     for (let i of data) {
         let id = i.contract;
 
-        if (!allContracts.has(id)) {
+        if (!proccessed.includes(id)) {
+            proccessed.push(id);
             stats.total_contracts += 1;
             stats.typeRequestQueue+= 1;
             updateLog();
@@ -106,15 +108,18 @@ function getTypeAndRecord(data) {
                         stats.ERC1155 += 1;
                     } else {
                         failedContracts.push(id);
-                        stats.FailedTypeDetermination += 1;
+                        stats.FailedTypeClassification += 1;
+                        //console.log(id);
                     }
+                    stats.typeRequestQueue-= 1;
+                    updateLog();
                 });
             } catch (err) {
                 failedContracts.push(id);
-                console.error(err);
+                stats.FailedTypeRequest += 1;
+                console.log(err);
+                updateLog();
             }
-            stats.typeRequestQueue-= 1;
-            updateLog();
         }
     }
 }
@@ -124,16 +129,19 @@ function startLogging() {
     consoleUpdate.line1 = console.draft();
     consoleUpdate.line2 = console.draft();
     consoleUpdate.line3 = console.draft();
+    consoleUpdate.line4 = console.draft();
     updateLog();
 }
 
 function updateLog() {
-    consoleUpdate.line1(`Fetched Contract addresses: ${stats.items}.`);
-    consoleUpdate.line2(`Contracts that need to get the type determined:` + 
-    `${stats.TypeRequestQueue}`);
-    consoleUpdate.line3(`Total ERC721: ${stats.ERC721}; Total ERC1155:` +
-    `${stats.ERC1155}; Total Failed Type: ${stats.FailedTypeRequests};` + 
-    `Total Contracts: ${stats.total_contracts}`);
+    consoleUpdate.line1(`Fetched Contract addresses: ${stats.items}. ` +
+    `Total Contracts: ${stats.total_contracts}; `);
+    consoleUpdate.line2(`Contracts waiting to get the type determined:` + 
+    `${stats.typeRequestQueue}`);
+    consoleUpdate.line3(`Total ERC721: ${stats.ERC721}; Total ERC1155: ` +
+    `${stats.ERC1155};`);
+    consoleUpdate.line4(`Total Failed Type Classification: ${stats.FailedTypeClassification}; ` + 
+    `Failed TypeRequests: ${stats.FailedTypeRequest}`);
 }
 
 function writeFiles() {
@@ -149,6 +157,6 @@ main().then(
     }
 ).catch(
     err => {
-        console.error(err);
+        console.log(err);
     }
 )
