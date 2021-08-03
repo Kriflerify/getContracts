@@ -32,6 +32,7 @@ async function main() {
 
     try {
         let res = await getPage();
+        console.log(res);
         let [l, cont, data] = parseResponse(res);
         stats.items += l;
 
@@ -77,7 +78,7 @@ async function getPage(cont = 0) {
                     size: requestSize };
     }
 
-    return await axios.get(endpoint, { parameters });
+    return await axios.get(endpoint, { params: parameters });
 }
 
 function parseResponse(res) {
