@@ -153,7 +153,7 @@ function writeFiles() {
 
 main().then(
     result => {
-        console.log(resullt);
+        console.log(result);
     }
 ).catch(
     err => {
