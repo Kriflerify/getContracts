@@ -1,7 +1,12 @@
 {
     "network": "mainnet",
     "outputFileName": "output/contracts.mainnet.json",
-    "ethNodeURL": "https://mainnet.infura.io/v3/40baae2ef49e422088e02166de2deb85",
-    "requestSize": 2000,
-    "raribleEndpoint": "https://api.rarible.com/protocol/v0.1/ethereum/nft/items/all"
+    "outputFileNameFailed": "output/contracts_failed.mainnet.json",
+    "ethNodeURL": "https://mainnet.infura.io/v3/f0c668a125984c949f40f23f14702b0f",
+    "requestSize": 4000,
+    "raribleEndpoint": "https://api.rarible.com/protocol/v0.1/ethereum/nft/items/all",
+    "etherscanAPIKey": "BPCF37BZUKRMEWGGWVQRFGI6XTDEX772KZ",
+    "etherscanEndpoint": "https://api.etherscan.io/api",
+    "batchRequestSize": 100,
+    "newestKnownItem": "0"
 }
